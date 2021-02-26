@@ -1,4 +1,4 @@
-name Linter
+name: Linter
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run linter
-        run: golangci-lint run --new-from-rev=4e2d21b26af2b745511cf1a7dffb3c2b99764436 --color always --disable-all -E gofmt -E deadcode -E errcheck -E gosimple -E govet -E ineffassign -E staticcheck -E structcheck -E typecheck -E varcheck
+        run: golangci-lint run --new-from-rev=11f4c0f7bb4fb74260546c0ca4c296368be26ea7 --color always --disable-all -E gofmt -E deadcode -E errcheck -E gosimple -E govet -E ineffassign -E staticcheck -E structcheck -E typecheck -E varcheck
         env:
           CGO_ENABLED=0
 
