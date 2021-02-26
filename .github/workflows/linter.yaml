@@ -10,14 +10,16 @@ on:
 jobs:
   linter:
     name: Running linter
-    runs-on: golangci/golangci-lint:v1.27-alpine
+    runs-on: ubuntu-latest
+    container:
+      image: golangci/golangci-lint:v1.27-alpine
+      env:
+        CGO_ENABLED: 0
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
       - name: Run linter
         run: golangci-lint run --new-from-rev=11f4c0f7bb4fb74260546c0ca4c296368be26ea7 --color always --disable-all -E gofmt -E deadcode -E errcheck -E gosimple -E govet -E ineffassign -E staticcheck -E structcheck -E typecheck -E varcheck
-        env:
-          CGO_ENABLED: 0
+
 
 
