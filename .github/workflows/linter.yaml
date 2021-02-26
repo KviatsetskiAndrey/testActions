@@ -1,0 +1,23 @@
+name Linter
+
+on:
+  push:
+    branches:
+      '**'
+  pull_request:
+    branches:
+      - develop
+jobs:
+  linter:
+    name: Running linter
+    runs-on: golangci/golangci-lint:v1.27-alpine
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run linter
+        run: golangci-lint run --new-from-rev=4e2d21b26af2b745511cf1a7dffb3c2b99764436 --color always --disable-all -E gofmt -E deadcode -E errcheck -E gosimple -E govet -E ineffassign -E staticcheck -E structcheck -E typecheck -E varcheck
+        env:
+          CGO_ENABLED=0
+
+
