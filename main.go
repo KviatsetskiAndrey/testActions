@@ -7,7 +7,6 @@ import (
 	"time"
 )
 
-
 func main() {
 	connectionLostHandler := stan.SetConnectionLostHandler(func(cn stan.Conn, err error) {
 		fmt.Println("Connection lost", "err", err)
