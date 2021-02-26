@@ -1,4 +1,4 @@
-package main
+package mainer
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func main() {
+func tx() {
 	connectionLostHandler := stan.SetConnectionLostHandler(func(cn stan.Conn, err error) {fmt.Println("Connection lost", "err", err)
 	})
 
