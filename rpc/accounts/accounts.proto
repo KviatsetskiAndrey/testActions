@@ -1,0 +1,53 @@
+syntax="proto3";
+
+package velmie.wallet.accounts;
+option go_package = "accounts";
+
+message DisableCurrencyReq {
+  string code = 1;
+}
+
+message DisableCurrencyResp {
+  bool can = 1;
+}
+
+message SettingsByNameReq {
+  string name = 1;
+}
+
+message SettingsByNameResp {
+  string value = 1;
+}
+
+message UserHasCardsOrAccountsReq {
+  string uid = 1;
+}
+
+message UserHasCardsOrAccountsResp {
+  bool cardsExist = 1;
+  bool accountsExist = 2;
+}
+
+message GenerateAndSendTansReq {
+  string uid = 1;
+}
+
+message GenerateAndSendTansResp {}
+
+message GenerateAccountReq {
+  string uid = 1;
+  string currencyCode = 2;
+}
+
+message GenerateAccountResp {
+  uint64 id = 1;
+  string number = 2;
+}
+
+service AccountsProcessor {
+  rpc CanDisableCurrency(DisableCurrencyReq) returns (DisableCurrencyResp);
+  rpc GetSettingsByName(SettingsByNameReq) returns (SettingsByNameResp);
+  rpc UserHasCardsOrAccountsBy(UserHasCardsOrAccountsReq) returns (UserHasCardsOrAccountsResp);
+  rpc GenerateAndSendTans(GenerateAndSendTansReq) returns (GenerateAndSendTansResp);
+  rpc GenerateAccount(GenerateAccountReq) returns (GenerateAccountResp);
+}

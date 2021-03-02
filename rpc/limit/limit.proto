@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package velmie.wallet.accounts;
+option go_package = "limit";
+
+// Limit represents limit
+message Limit {
+  // currency code might be empty string if limit is not exist or "no limit"
+  string currency_code = 1;
+  // amount is decimal string representation of limit amount
+  // might be empty string if limit is not exist or "no limit"
+  string amount = 2;
+  // indicates whether a limit is exist
+  bool exists = 3;
+  // indicates that it is not limited
+  bool no_limit = 4;
+}
+
+enum LimitName {
+    // empty limit name means "no name" it could be used for "Get" requests
+    EMPTY = 0;
+    // aggregation of all accounts balances
+    MAX_TOTAL_BALANCE = 1;
+    // maximum value that can be credited within a single transfer
+    MAX_CREDIT_PER_TRANSFER = 2;
+    // maximum value that can be debited within a single transfer
+    MAX_DEBIT_PER_TRANSFER = 3;
+    // aggregation of all debit transactions for the current day
+    MAX_TOTAL_DEBIT_PER_DAY = 4;
+    // aggregation of all debit transactions for the current month
+    MAX_TOTAL_DEBIT_PER_MONTH = 5;
+}
+
+// LimitId identifies limit
+message LimitId {
+  // specific limit name
+  LimitName name = 1;
+  // entity (relation name) e.g. user
+  string entity = 2;
+  // unique identifier of the entity
+  string entity_id = 3;
+}
+
+message LimitWithId {
+  Limit limit = 1;
+  LimitId limit_id = 2;
+}
+
+message SetLimitsRequest {
+  repeated LimitWithId limits = 1;
+}
+
+message SetLimitsResponse {}
+
+message GetLimitsRequest {
+  repeated LimitId identifiers = 1;
+}
+
+message GetLimitsResponse {
+  repeated LimitWithId limits = 1;
+}
+
+message ResetLimitsRequest {
+  repeated LimitId identifiers = 1;
+}
+
+message ResetLimitsResponse {}
+
+service Limits {
+  // Set sets multiple limits (create or update)
+  rpc Set(SetLimitsRequest) returns (SetLimitsResponse);
+  // Get retrieves list of limits on a given list of identifiers
+  rpc Get(GetLimitsRequest) returns (GetLimitsResponse);
+  // ResetToDefault resets to default limits on a given list of identifiers
+  rpc ResetToDefault(ResetLimitsRequest) returns (ResetLimitsResponse);
+}
